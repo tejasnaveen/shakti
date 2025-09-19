@@ -46,14 +46,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const login = async (username: string, password: string, role: string) => {
-    try {
-      const response = await apiService.login({ username, password, role });
-      localStorage.setItem('token', response.token);
-      localStorage.setItem('user', JSON.stringify(response.user));
-      setUser(response.user);
-    } catch (error) {
-      throw error;
-    }
+    // Mock login for demo purposes (no backend required)
+    const mockUser = {
+      id: 1,
+      username: username,
+      fullName: username === 'yanavi infotech' ? 'Super Administrator' : 
+                username === 'company_admin' ? 'Company Administrator' :
+                username === 'team_lead' ? 'Team Leader' : 'Telecaller User',
+      role: role,
+      companyId: role !== 'SuperAdmin' ? 1 : undefined,
+      teamId: role === 'Telecaller' ? 1 : undefined
+    };
+    
+    localStorage.setItem('token', 'mock-token');
+    localStorage.setItem('user', JSON.stringify(mockUser));
+    setUser(mockUser);
   };
 
   const logout = () => {

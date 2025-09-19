@@ -70,15 +70,46 @@ class ApiService {
   }
 
   async getUsersByRole(role: string): Promise<User[]> {
-    const response = await fetch(`${API_BASE_URL}/users/role/${role}`, {
-      headers: this.getAuthHeaders()
+    // Mock data for demo purposes
+    const mockUsers: User[] = [
+      {
+        id: 1,
+        username: 'john_doe',
+        fullName: 'John Doe',
+        role: role,
+        companyName: role !== 'SuperAdmin' ? 'Acme Corporation' : undefined,
+        teamName: role === 'Telecaller' ? 'Sales Team A' : undefined,
+        isActive: true,
+        createdAt: '2024-01-15T10:30:00Z',
+        createdBy: 'Super Administrator'
+      },
+      {
+        id: 2,
+        username: 'jane_smith',
+        fullName: 'Jane Smith',
+        role: role,
+        companyName: role !== 'SuperAdmin' ? 'Tech Solutions Inc' : undefined,
+        teamName: role === 'Telecaller' ? 'Support Team B' : undefined,
+        isActive: false,
+        createdAt: '2024-01-20T14:15:00Z',
+        createdBy: 'Super Administrator'
+      },
+      {
+        id: 3,
+        username: 'mike_wilson',
+        fullName: 'Mike Wilson',
+        role: role,
+        companyName: role !== 'SuperAdmin' ? 'Global Enterprises' : undefined,
+        teamName: role === 'Telecaller' ? 'Recovery Team C' : undefined,
+        isActive: true,
+        createdAt: '2024-02-01T09:45:00Z',
+        createdBy: 'Company Administrator'
+      }
+    ];
+
+    return new Promise(resolve => {
+      setTimeout(() => resolve(mockUsers), 500); // Simulate API delay
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch users');
-    }
-
-    return response.json();
   }
 
   async createUser(data: {
@@ -87,17 +118,12 @@ class ApiService {
     companyId?: number;
     teamId?: number;
   }, userType: 'company-admins' | 'team-incharges' | 'telecallers'): Promise<{ tempPassword: string }> {
-    const response = await fetch(`${API_BASE_URL}/users/${userType}`, {
-      method: 'POST',
-      headers: this.getAuthHeaders(),
-      body: JSON.stringify(data)
+    // Mock user creation
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve({ tempPassword: 'temp123' });
+      }, 1000);
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to create user');
-    }
-
-    return response.json();
   }
 
   async updateUser(id: number, data: {
@@ -106,102 +132,113 @@ class ApiService {
     companyId?: number;
     teamId?: number;
   }): Promise<void> {
-    const response = await fetch(`${API_BASE_URL}/users/${id}`, {
-      method: 'PATCH',
-      headers: this.getAuthHeaders(),
-      body: JSON.stringify(data)
+    // Mock update
+    return new Promise(resolve => {
+      setTimeout(() => resolve(), 500);
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to update user');
-    }
   }
 
   async deleteUser(id: number): Promise<void> {
-    const response = await fetch(`${API_BASE_URL}/users/${id}`, {
-      method: 'DELETE',
-      headers: this.getAuthHeaders()
+    // Mock delete
+    return new Promise(resolve => {
+      setTimeout(() => resolve(), 500);
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to delete user');
-    }
   }
 
   async resetPassword(id: number): Promise<{ newPassword: string }> {
-    const response = await fetch(`${API_BASE_URL}/users/${id}/reset-password`, {
-      method: 'POST',
-      headers: this.getAuthHeaders()
+    // Mock password reset
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve({ newPassword: 'newPass123' });
+      }, 500);
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to reset password');
-    }
-
-    return response.json();
   }
 
   async toggleUserStatus(id: number): Promise<void> {
-    const response = await fetch(`${API_BASE_URL}/users/${id}/status`, {
-      method: 'PATCH',
-      headers: this.getAuthHeaders()
+    // Mock status toggle
+    return new Promise(resolve => {
+      setTimeout(() => resolve(), 500);
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to toggle user status');
-    }
   }
 
   async getCompanies(): Promise<Company[]> {
-    const response = await fetch(`${API_BASE_URL}/users/companies`, {
-      headers: this.getAuthHeaders()
+    // Mock companies data
+    const mockCompanies: Company[] = [
+      {
+        id: 1,
+        name: 'Acme Corporation',
+        createdBy: 'Super Administrator',
+        createdAt: '2024-01-10T08:00:00Z'
+      },
+      {
+        id: 2,
+        name: 'Tech Solutions Inc',
+        createdBy: 'Super Administrator',
+        createdAt: '2024-01-15T10:30:00Z'
+      },
+      {
+        id: 3,
+        name: 'Global Enterprises',
+        createdBy: 'Super Administrator',
+        createdAt: '2024-01-20T14:15:00Z'
+      }
+    ];
+
+    return new Promise(resolve => {
+      setTimeout(() => resolve(mockCompanies), 300);
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch companies');
-    }
-
-    return response.json();
   }
 
   async getTeams(companyId?: number): Promise<Team[]> {
-    const url = companyId 
-      ? `${API_BASE_URL}/users/teams?companyId=${companyId}`
-      : `${API_BASE_URL}/users/teams`;
-      
-    const response = await fetch(url, {
-      headers: this.getAuthHeaders()
+    // Mock teams data
+    const mockTeams: Team[] = [
+      {
+        id: 1,
+        name: 'Sales Team A',
+        companyName: 'Acme Corporation',
+        companyId: 1,
+        createdBy: 'Company Administrator',
+        createdAt: '2024-01-12T09:00:00Z'
+      },
+      {
+        id: 2,
+        name: 'Support Team B',
+        companyName: 'Tech Solutions Inc',
+        companyId: 2,
+        createdBy: 'Company Administrator',
+        createdAt: '2024-01-18T11:30:00Z'
+      },
+      {
+        id: 3,
+        name: 'Recovery Team C',
+        companyName: 'Global Enterprises',
+        companyId: 3,
+        createdBy: 'Company Administrator',
+        createdAt: '2024-01-25T16:45:00Z'
+      }
+    ];
+
+    const filteredTeams = companyId 
+      ? mockTeams.filter(team => team.companyId === companyId)
+      : mockTeams;
+
+    return new Promise(resolve => {
+      setTimeout(() => resolve(filteredTeams), 300);
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch teams');
-    }
-
-    return response.json();
   }
 
   async createCompany(name: string): Promise<void> {
-    const response = await fetch(`${API_BASE_URL}/users/companies`, {
-      method: 'POST',
-      headers: this.getAuthHeaders(),
-      body: JSON.stringify({ name })
+    // Mock company creation
+    return new Promise(resolve => {
+      setTimeout(() => resolve(), 800);
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to create company');
-    }
   }
 
   async createTeam(name: string, companyId: number): Promise<void> {
-    const response = await fetch(`${API_BASE_URL}/users/teams`, {
-      method: 'POST',
-      headers: this.getAuthHeaders(),
-      body: JSON.stringify({ name, companyId })
+    // Mock team creation
+    return new Promise(resolve => {
+      setTimeout(() => resolve(), 800);
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to create team');
-    }
   }
 }
 
